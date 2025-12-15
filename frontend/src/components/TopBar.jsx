@@ -1,10 +1,23 @@
-function TopBar({ onSignupClick }) {
+function TopBar({ user, onSignupClick, onLoginClick, onLogout }) {
   return (
     <div className="top-bar">
-      <button className="link-button">Login</button>
-      <button className="primary-button" onClick={onSignupClick}>
-        Signup
-      </button>
+      {user ? (
+        <>
+          <span>{user.username}</span>
+          <button className="primary-button" onClick={onLogout}>
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+            <button className="link-button" onClick={onLoginClick}>
+                Login
+                </button>
+            <button className="primary-button" onClick={onSignupClick}>
+                Signup
+                </button>
+        </>
+      )}
     </div>
   );
 }

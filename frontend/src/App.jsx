@@ -1,23 +1,61 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import TopBar from "./components/TopBar";
 import SignupModal from "./components/SignupModal";
+import LoginModal from "./components/LoginModal";
+
 import './App.css'
 
 function App() {
+  const [user, setUser] = useState(null);
   const [showSignup, setShowSignup] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
+  // 앱 시작 시 로그인 상태 확인
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/auth/me", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then((data) => setUser(data))
+      .catch(() => setUser(null));
+  }, []);
+
+  const handleLogout = async () => {
+    await fetch("http://127.0.0.1:8000/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    setUser(null);
+  };
 
   return (
     <div className="app-container">
-      <TopBar onSignupClick={() => setShowSignup(true)} />
+      <TopBar 
+        user={user}
+        onSignupClick={() => setShowSignup(true)} 
+        onLoginClick={() => setShowLogin(true)}
+        onLogout={() => handleLogout(null)} // TODO: logout API 연결
+      />
 
       <main>
         <h1>게시판</h1>
         <p>App main content goes here</p>
       </main>
 
+      {showLogin && (
+        <LoginModal 
+          onClose={() => setShowLogin(false)} 
+          onLoginSuccess={(u) => setUser(u)}
+        />
+      )}
+
       {showSignup && (
         <SignupModal onClose={() => setShowSignup(false)} />
       )}
+
     </div>
   );
 }
