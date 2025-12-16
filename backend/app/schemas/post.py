@@ -16,4 +16,8 @@ class PostResponse(BaseModel):
         "from_attributes": True
     }
     
-    
+class PostListResponse(BaseModel):
+    items: list[PostResponse]
+    limit: int
+    offset: int
+    total: int
