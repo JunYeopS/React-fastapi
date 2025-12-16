@@ -51,6 +51,7 @@ def list_posts(
         select(
             Post.id,
             Post.title,
+            Post.content,
             Post.created_at,
             User.username.label("author"),
         )
@@ -65,6 +66,7 @@ def list_posts(
     items = [{
             "id": r.id,
             "title": r.title,
+            "content":r.content,
             "author": r.author,
             "created_at": r.created_at,
         }
