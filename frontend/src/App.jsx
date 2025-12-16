@@ -1,7 +1,8 @@
-import { useState,useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import TopBar from "./components/TopBar";
 import SignupModal from "./components/SignupModal";
 import LoginModal from "./components/LoginModal";
+import PostingLists from "./components/PostingLists";
 
 import './App.css'
 
@@ -24,11 +25,14 @@ function App() {
   }, []);
 
   const handleLogout = async () => {
-    await fetch("http://127.0.0.1:8000/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-    setUser(null);
+    try {
+      await fetch("http://127.0.0.1:8000/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } finally {
+      setUser(null);
+    }
   };
 
   return (
@@ -37,12 +41,12 @@ function App() {
         user={user}
         onSignupClick={() => setShowSignup(true)} 
         onLoginClick={() => setShowLogin(true)}
-        onLogout={() => handleLogout(null)} // TODO: logout API 연결
+        onLogout={handleLogout}
       />
 
       <main>
         <h1>게시판</h1>
-        <p>App main content goes here</p>
+        <PostingLists />
       </main>
 
       {showLogin && (
@@ -55,8 +59,8 @@ function App() {
       {showSignup && (
         <SignupModal onClose={() => setShowSignup(false)} />
       )}
-
     </div>
+
   );
 }
 
