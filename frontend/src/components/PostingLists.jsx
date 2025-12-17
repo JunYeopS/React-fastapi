@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './PostingLists.css'
 
 const BASE_URL = "http://127.0.0.1:8000";
@@ -9,6 +10,7 @@ function PostingLists(){
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const [limit] = useState(DEFAULT_LIMIT);
     const [page, setPage] = useState(0); // 0-based
@@ -82,7 +84,20 @@ function PostingLists(){
                     <div>No posts yet</div>
                 ) : (
                     posts.map((post) => (
-                        <div className="post-card" key={post.id}>
+                        <div
+                            className="post-card"
+                            key={post.id}
+                            role="button"
+                            tabIndex={0}
+                            onClick={() => navigate(`/posts/${post.id}`)}
+                            // onKeyDown={(e) => {
+                            //     if (e.key === "Enter") navigate(`/posts/${post.id}`);
+                            //     if (e.key === " ") {
+                            //         e.preventDefault();
+                            //         navigate(`/posts/${post.id}`);
+                            //     }
+                            // }}
+                        >
                             <h3 className="post-title">{post.title}</h3>
                             <p className="post-content">{post.content}</p>
 
