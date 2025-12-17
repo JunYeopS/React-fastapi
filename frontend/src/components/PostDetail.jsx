@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./PostDetail.css";
+import CommentSection from "./CommentSection";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
@@ -75,14 +76,17 @@ function PostDetail() {
       ) : !post ? (
         <div className="post-detail__status">Post not found</div>
       ) : (
-        <article className="post-detail-card">
-          <h2 className="post-detail-title">{post.title}</h2>
-          <div className="post-detail-meta">
-            <span>작성자: {author}</span>
-            <span>{new Date(post.created_at).toLocaleString()}</span>
-          </div>
-          <div className="post-detail-content">{post.content}</div>
-        </article>
+        <>
+          <article className="post-detail-card">
+            <h2 className="post-detail-title">{post.title}</h2>
+            <div className="post-detail-meta">
+              <span>작성자: {author}</span>
+              <span>{new Date(post.created_at).toLocaleString()}</span>
+            </div>
+            <div className="post-detail-content">{post.content}</div>
+          </article>
+          <CommentSection postId={postId} />
+        </>
       )}
     </div>
   );
