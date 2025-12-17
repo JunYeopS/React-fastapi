@@ -83,7 +83,6 @@ def list_posts(
 @router.get("/{post_id}", response_model=PostResponse, status_code= status.HTTP_200_OK)
 def get_post(
     post_id: int, db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
     ):
     
     post = db.get(Post, post_id)
@@ -99,7 +98,7 @@ def get_post(
         "id": post.id,
         "title": post.title,
         "content": post.content,
-        "author": author,
+        "author": author.username if author else None,
         "created_at": post.created_at,
     }    
     
