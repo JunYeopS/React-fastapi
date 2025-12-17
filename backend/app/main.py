@@ -30,7 +30,7 @@ app.add_middleware(
 app.include_router(users_router, prefix="/users", tags=["users"])
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 app.include_router(posts_router, prefix="/posts", tags=["posts"])
-app.include_router(prefix="/posts/{post_id}/comments", tags=["Comments"])
+app.include_router(comments_router, prefix="/posts/{post_id}/comments", tags=["Comments"])
 
 @app.get("/")
 def ping():
