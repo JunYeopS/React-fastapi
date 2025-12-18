@@ -37,7 +37,7 @@ def create_post(post_in: PostCreate,
     
 @router.get("/", response_model=PostListResponse,status_code=status.HTTP_200_OK)
 def list_posts(
-    limit: int = Query(10, ge=1, le=50),
+    limit: int = Query(9, ge=1, le=50),
     offset: int = Query(0, ge=0),
     db: Session = Depends(get_db),
 ):
